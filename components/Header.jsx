@@ -8,9 +8,9 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
@@ -21,15 +21,17 @@ export default function Header() {
     >
       <nav className="container mx-auto flex items-center justify-between py-4 px-6 md:px-10">
         {/* LOGO */}
-        <Link href="/" className="flex items-center space-x-3">
-          <div className="relative w-[130px] md:w-[150px] transition-all duration-300">
+        <Link href="/" className="flex items-center" aria-label="Tomazela | Estratégia & Comunicação">
+          {/* largura controlada para não quebrar layout */}
+          <div className="relative w-[150px] md:w-[170px]">
             <Image
-              src="/logo-tomazela-br.png"
+              src="/logo-tomazela.png"              // <- caminho correto no /public
               alt="Tomazela | Estratégia & Comunicação"
-              width={150}
-              height={55}
-              className={`transition-all duration-300 ${
-                isScrolled ? "scale-90" : "scale-100"
+              width={170}
+              height={60}
+              sizes="(min-width: 768px) 170px, 150px"
+              className={`h-auto w-full object-contain transition-transform duration-300 ${
+                isScrolled ? "scale-95" : "scale-100"
               }`}
               priority
             />
@@ -37,28 +39,19 @@ export default function Header() {
         </Link>
 
         {/* MENU DESKTOP */}
-        <ul className="hidden md:flex space-x-10 text-base text-gray-900 font-medium">
+        <ul className="hidden md:flex items-center gap-10 text-base text-gray-900 font-medium">
           <li>
-            <Link
-              href="/#servicos"
-              className="hover:text-[#FF4D00] transition-colors"
-            >
+            <Link href="/#servicos" className="hover:text-[#FF4D00] transition-colors">
               Serviços
             </Link>
           </li>
           <li>
-            <Link
-              href="/manifesto"
-              className="hover:text-[#FF4D00] transition-colors"
-            >
+            <Link href="/manifesto" className="hover:text-[#FF4D00] transition-colors">
               Manifesto
             </Link>
           </li>
           <li>
-            <Link
-              href="/#quem-somos"
-              className="hover:text-[#FF4D00] transition-colors"
-            >
+            <Link href="/#quem-somos" className="hover:text-[#FF4D00] transition-colors">
               Quem somos
             </Link>
           </li>
@@ -74,47 +67,23 @@ export default function Header() {
 
         {/* MENU MOBILE */}
         <button
-          className="md:hidden flex flex-col justify-center items-center space-y-1"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden flex flex-col justify-center items-center gap-1.5"
+          onClick={() => setIsMenuOpen((v) => !v)}
           aria-label="Abrir menu"
         >
-          <span
-            className={`w-6 h-[2px] bg-black transition-transform ${
-              isMenuOpen ? "rotate-45 translate-y-[6px]" : ""
-            }`}
-          />
-          <span
-            className={`w-6 h-[2px] bg-black transition-opacity ${
-              isMenuOpen ? "opacity-0" : "opacity-100"
-            }`}
-          />
-          <span
-            className={`w-6 h-[2px] bg-black transition-transform ${
-              isMenuOpen ? "-rotate-45 -translate-y-[6px]" : ""
-            }`}
-          />
+          <span className={`w-6 h-[2px] bg-black transition ${isMenuOpen ? "rotate-45 translate-y-[6px]" : ""}`} />
+          <span className={`w-6 h-[2px] bg-black transition ${isMenuOpen ? "opacity-0" : "opacity-100"}`} />
+          <span className={`w-6 h-[2px] bg-black transition ${isMenuOpen ? "-rotate-45 -translate-y-[6px]" : ""}`} />
         </button>
       </nav>
 
       {/* MENU MOBILE ABERTO */}
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-200 py-4 px-6">
-          <ul className="flex flex-col space-y-4 text-gray-800 font-medium">
-            <li>
-              <Link href="/#servicos" onClick={() => setIsMenuOpen(false)}>
-                Serviços
-              </Link>
-            </li>
-            <li>
-              <Link href="/manifesto" onClick={() => setIsMenuOpen(false)}>
-                Manifesto
-              </Link>
-            </li>
-            <li>
-              <Link href="/#quem-somos" onClick={() => setIsMenuOpen(false)}>
-                Quem somos
-              </Link>
-            </li>
+          <ul className="flex flex-col gap-4 text-gray-800 font-medium">
+            <li><Link href="/#servicos" onClick={() => setIsMenuOpen(false)}>Serviços</Link></li>
+            <li><Link href="/manifesto" onClick={() => setIsMenuOpen(false)}>Manifesto</Link></li>
+            <li><Link href="/#quem-somos" onClick={() => setIsMenuOpen(false)}>Quem somos</Link></li>
             <li>
               <Link
                 href="/#contato"
