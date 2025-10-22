@@ -24,7 +24,7 @@ export default function Header() {
             width={440}
             height={120}
             priority
-            className={`w-auto transition-all duration-200 ${scrolled ? 'h-[80px] sm:h-[92px]' : 'h-[96px] sm:h-[110px]'}`}
+            className={`w-auto transition-all duration-200 ${scrolled ? 'h-[85px] sm:h-[105px]' : 'h-[100px] sm:h-[125px]'}`}
           />
         </Link>
 
