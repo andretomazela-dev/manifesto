@@ -1,0 +1,9 @@
+export async function generateStaticParams() {
+  return [
+    { slug: "gaslighting-no-trabalho" },
+    { slug: "subjetividade-e-saude-mental" },
+    { slug: "etarismo-nas-empresas" },
+  ];
+}
+
+import Header from "@/components/Header";import Footer from "@/components/Footer";import Link from "next/link";const DB={'gaslighting-no-trabalho':{title:'Gaslighting no trabalho: como reconhecer e agir',date:'24/09/2025',cover:'/lab/covers/cover1.jpg',html:'<p>Exemplo de conteúdo. Substitua por Markdown.</p>'},'subjetividade-e-saude-mental':{title:'Subjetividade sequestrada e saúde mental',date:'08/09/2025',cover:'/lab/covers/cover2.jpg',html:'<p>Conteúdo demonstrativo.</p>'},'etarismo-nas-empresas':{title:'Etarismo nas empresas: o preconceito invisível',date:'26/08/2025',cover:'/lab/covers/cover3.jpg',html:'<p>Texto de demonstração.</p>'}};export default function Post({params}){const post=DB[params.slug];if(!post){return(<div><Header/><section classNamee='container py-20'><h1 classNamee='text-3xl font-bold'>Artigo não encontrado</h1><Link href='/lab' classNamee='btn btn-outline mt-6'>Voltar ao Lab</Link></section><Footer/></div>);}return(<div><Header/><main classNamee='container py-12 md:py-16 max-w-3xl'><p classNamee='text-brand font-semibold'>Tomazela Lab</p><h1 classNamee='text-3xl md:text-4xl font-extrabold mt-1'>{post.title}</h1><p classNamee='text-sm text-gray-500'>{post.date}</p><div classNamee='rounded-2xl overflow-hidden border my-6'><img src={post.cover} alt='' classNamee='w-full h-auto'/></div><article classNamee='prose prose-zinc max-w-none' dangerouslySetInnerHTML={{__html:post.html}}/><div classNamee='mt-10'><Link href='/lab' classNamee='btn btn-outline'>← Voltar ao Tomazela Lab</Link></div></main><Footer/></div>);}
