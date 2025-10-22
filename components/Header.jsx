@@ -1,101 +1,70 @@
-"use client";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+'use client';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/90 shadow-md backdrop-blur-md" : "bg-white"
-      }`}
-    >
-      <nav className="container mx-auto flex items-center justify-between py-4 px-6 md:px-10">
-        {/* LOGO */}
-        <Link href="/" className="flex items-center" aria-label="Tomazela | Estratégia & Comunicação">
-          {/* largura controlada para não quebrar layout */}
-          <div className="relative w-[150px] md:w-[170px]">
-            <Image
-              src="/logo-tomazela.png"              // <- caminho correto no /public
-              alt="Tomazela | Estratégia & Comunicação"
-              width={170}
-              height={60}
-              sizes="(min-width: 768px) 170px, 150px"
-              className={`h-auto w-full object-contain transition-transform duration-300 ${
-                isScrolled ? "scale-95" : "scale-100"
-              }`}
-              priority
-            />
-          </div>
+    <header className={`sticky top-0 z-50 bg-white shadow-sm border-b ${scrolled ? 'border-gray-200' : 'border-transparent'}`}>
+      <div className="container flex items-center justify-between py-3">
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/logo-tomazela.png"
+            alt="Tomazela"
+            width={440}
+            height={120}
+            priority
+            className={`w-auto transition-all duration-200 ${scrolled ? 'h-[80px] sm:h-[92px]' : 'h-[96px] sm:h-[110px]'}`}
+          />
         </Link>
 
-        {/* MENU DESKTOP */}
-        <ul className="hidden md:flex items-center gap-10 text-base text-gray-900 font-medium">
-          <li>
-            <Link href="/#servicos" className="hover:text-[#FF4D00] transition-colors">
-              Serviços
-            </Link>
-          </li>
-          <li>
-            <Link href="/manifesto" className="hover:text-[#FF4D00] transition-colors">
-              Manifesto
-            </Link>
-          </li>
-          <li>
-            <Link href="/#quem-somos" className="hover:text-[#FF4D00] transition-colors">
-              Quem somos
-            </Link>
-          </li>
-        </ul>
+        <nav className="hidden md:flex items-center gap-6">
+          <a href="/#servicos" className="hover:text-brand">Serviços</a>
+          <Link href="/manifesto" className="hover:text-brand">Manifesto</Link>
+          <a href="/#sobre" className="hover:text-brand">Quem somos</a>
+          <a href="/#contato" className="btn btn-primary rounded-2xl">Fale com a gente</a>
+        </nav>
 
-        {/* BOTÃO */}
-        <Link
-          href="/#contato"
-          className="hidden md:inline-block bg-[#FF4D00] text-white font-semibold py-2 px-6 rounded-xl hover:opacity-90 transition"
-        >
-          Fale com a gente
-        </Link>
-
-        {/* MENU MOBILE */}
         <button
-          className="md:hidden flex flex-col justify-center items-center gap-1.5"
-          onClick={() => setIsMenuOpen((v) => !v)}
+          className="md:hidden inline-flex items-center justify-center rounded-xl border px-3 py-2"
           aria-label="Abrir menu"
+          onClick={() => setMenuOpen(true)}
         >
-          <span className={`w-6 h-[2px] bg-black transition ${isMenuOpen ? "rotate-45 translate-y-[6px]" : ""}`} />
-          <span className={`w-6 h-[2px] bg-black transition ${isMenuOpen ? "opacity-0" : "opacity-100"}`} />
-          <span className={`w-6 h-[2px] bg-black transition ${isMenuOpen ? "-rotate-45 -translate-y-[6px]" : ""}`} />
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
         </button>
-      </nav>
+      </div>
 
-      {/* MENU MOBILE ABERTO */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-200 py-4 px-6">
-          <ul className="flex flex-col gap-4 text-gray-800 font-medium">
-            <li><Link href="/#servicos" onClick={() => setIsMenuOpen(false)}>Serviços</Link></li>
-            <li><Link href="/manifesto" onClick={() => setIsMenuOpen(false)}>Manifesto</Link></li>
-            <li><Link href="/#quem-somos" onClick={() => setIsMenuOpen(false)}>Quem somos</Link></li>
-            <li>
-              <Link
-                href="/#contato"
-                className="inline-block bg-[#FF4D00] text-white font-semibold py-2 px-5 rounded-xl text-center"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Fale com a gente
-              </Link>
-            </li>
-          </ul>
+      <div className={`fixed inset-0 z-40 md:hidden ${menuOpen ? '' : 'pointer-events-none'}`}>
+        <div
+          className={`absolute inset-0 bg-black/50 transition-opacity duration-200 ${menuOpen ? 'opacity-100' : 'opacity-0'}`}
+          onClick={() => setMenuOpen(false)}
+        />
+        <div
+          className={`absolute right-0 top-0 h-full w-72 bg-white shadow-xl p-6 transition-transform duration-200 ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        >
+          <button className="mb-4" onClick={() => setMenuOpen(false)}>Fechar</button>
+          <nav className="flex flex-col gap-4">
+            <a href="/#servicos" onClick={() => setMenuOpen(false)}>Serviços</a>
+            <Link href="/manifesto" onClick={() => setMenuOpen(false)}>Manifesto</Link>
+            <a href="/#sobre" onClick={() => setMenuOpen(false)}>Quem somos</a>
+            <a href="/#contato" className="btn btn-primary rounded-2xl" onClick={() => setMenuOpen(false)}>Fale com a gente</a>
+          </nav>
         </div>
-      )}
+      </div>
     </header>
   );
 }
