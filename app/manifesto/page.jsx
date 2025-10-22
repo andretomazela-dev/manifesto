@@ -27,82 +27,94 @@ export default function Manifesto() {
           </p>
         </section>
 
-        {/* Seção 1 – valores + foto mãos */}
-        <section className="container grid md:grid-cols-2 gap-10 items-start pb-6">
-          <div className="rounded-2xl overflow-hidden shadow-card">
-            <Image
-              src="/manifesto-hands.webp"
-              alt="Mãos erguidas representando diversidade e união"
-              width={900}
-              height={600}
-              className="w-full h-auto max-h-[400px] object-cover"
-              priority
-            />
-          </div>
-
-          <div>
+        {/* BLOCO 1 — Texto à ESQUERDA / Imagem à DIREITA */}
+        <section className="container grid md:grid-cols-12 gap-10 items-start">
+          {/* Texto */}
+          <div className="md:col-span-7 order-2 md:order-1">
             <h2 className="text-2xl font-bold mb-4">O que a gente defende?</h2>
             <ul className="space-y-4 text-gray-800 leading-relaxed">
               <li>
-                <strong>🌍 Justiça Social</strong>
-                <br />
+                <strong>🌍 Justiça Social</strong><br />
                 O mundo só será bom para TODO MUNDO quando houver distribuição
                 de riqueza e equidade de oportunidades.
               </li>
               <li>
-                <strong>🌱 Direitos dos Povos Originários</strong>
-                <br />
+                <strong>🌱 Direitos dos Povos Originários</strong><br />
                 Território, cultura e reparação. Isso é o mínimo que os povos
                 originários merecem.
               </li>
               <li>
-                <strong>✊🏿 Reparação Histórica</strong>
-                <br />
+                <strong>✊🏿 Reparação Histórica</strong><br />
                 Os descendentes de povos escravizados têm direito à terra, às
                 posses, à dignidade. Sem &quot;mas&quot;, sem &quot;e se&quot;.
               </li>
               <li>
-                <strong>🕊️ Liberdade Religiosa (com responsabilidade)</strong>
-                <br />
+                <strong>🕊️ Liberdade Religiosa (com responsabilidade)</strong><br />
                 Todas as religiões merecem respeito… menos as que promovem ódio
                 e preconceito. Respeitamos, mas não somos ingênuos.
               </li>
               <li>
-                <strong>❤️‍🩹 Saúde e Educação de Qualidade</strong>
-                <br />
+                <strong>❤️‍🩹 Saúde e Educação de Qualidade</strong><br />
                 Direito de todos, dever do Estado. Viva o SUS!
               </li>
               <li>
-                <strong>🌈 Diversidade e Inclusão</strong>
-                <br />
+                <strong>🌈 Diversidade e Inclusão</strong><br />
                 O preconceito é ignorância. A sexualidade de cada um é livre,
                 natural e merece respeito.
               </li>
               <li>
-                <strong>💪 Quebrando Padrões</strong>
-                <br />
+                <strong>💪 Quebrando Padrões</strong><br />
                 A diversidade de corpos é linda. Padrões de beleza são só…
                 padrões. E estamos aqui para desconstruí-los.
               </li>
               <li>
-                <strong>🤝 Conexões Reais</strong>
-                <br />
+                <strong>🤝 Conexões Reais</strong><br />
                 Curtidas não substituem relações reais. Bora viver o mundo
                 offline também!
               </li>
               <li>
-                <strong>🧠 Saúde Mental é Prioridade</strong>
-                <br />
+                <strong>🧠 Saúde Mental é Prioridade</strong><br />
                 Cuidar da mente deveria ser tão comum quanto escovar os dentes.
                 (Inclusive, já escovou hoje?)
               </li>
             </ul>
           </div>
+
+          {/* Imagem vertical (mãos) */}
+          <div className="md:col-span-5 order-1 md:order-2">
+            <div className="rounded-2xl overflow-hidden shadow-card relative h-[320px] md:h-[520px] lg:h-[560px]">
+              <Image
+                src="/manifesto-hands.webp"
+                alt="Mãos erguidas representando diversidade e união"
+                fill
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="object-cover"
+                priority
+              />
+            </div>
+          </div>
         </section>
 
-        {/* Seção 2 – impacto + foto planeta */}
-        <section className="container grid md:grid-cols-2 gap-10 items-center py-10">
-          <div>
+        {/* espaço entre blocos */}
+        <div className="container mt-12 md:mt-16" />
+
+        {/* BLOCO 2 — Imagem à ESQUERDA / Texto à DIREITA */}
+        <section className="container grid md:grid-cols-12 gap-10 items-center">
+          {/* Imagem (planeta) */}
+          <div className="md:col-span-6">
+            <div className="rounded-2xl overflow-hidden shadow-card relative h-[340px] md:h-[420px] lg:h-[440px]">
+              <Image
+                src="/manifesto-planet.webp"
+                alt="Planeta criativo simbolizando um mundo conectado"
+                fill
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Texto */}
+          <div className="md:col-span-6">
             <h2 className="text-2xl md:text-3xl font-bold leading-tight">
               Não é só sobre comunicação. É sobre impacto.
             </h2>
@@ -122,20 +134,10 @@ export default function Manifesto() {
               Entre em contato
             </Link>
           </div>
-
-          <div className="rounded-2xl overflow-hidden shadow-card">
-            <Image
-              src="/manifesto-planet.webp"
-              alt="Planeta criativo simbolizando um mundo conectado"
-              width={900}
-              height={600}
-              className="w-full h-auto max-h-[400px] object-cover"
-            />
-          </div>
         </section>
 
         {/* respiro antes do footer */}
-        <div className="h-6 md:h-8" />
+        <div className="h-10 md:h-12" />
       </main>
 
       <Footer />
