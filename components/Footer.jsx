@@ -1,19 +1,63 @@
-'use client';
-import Image from 'next/image';
+"use client";
+import Image from "next/image";
+import { Mail, Linkedin, Instagram, MessageCircle } from "lucide-react";
 
-export default function Footer(){
+export default function Footer() {
   return (
-    <footer className='bg-brand text-white mt-16'>
-      <div className='container py-10 flex flex-col items-center gap-6'>
-        <Image src='/logo-tomazela-br-fundotransp.png' alt='Tomazela (logo branco)' width={400} height={85} className='h-[85px] w-auto' />
-        <p className='text-center text-sm'>Santa Cecília | São Paulo SP</p>
-        <div className='flex gap-4 text-sm underline'>
-          <a href='mailto:andre@andretomazela.com.br'>andre@andretomazela.com.br</a>
-          <a href='https://wa.me/5511985443389' target='_blank'>WhatsApp</a>
-          <a href='https://www.linkedin.com/in/tomazela/' target='_blank'>LinkedIn</a>
-          <a href='https://instagram.com/tomazelacomunica' target='_blank'>Instagram</a>
+    <footer className="bg-[#FF4D00] text-white py-10 px-6">
+      <div className="flex flex-col items-center text-center space-y-3">
+        <Image
+          src="/logo-tomazela-br-fundotransp.png"
+          alt="Tomazela | Estratégia & Comunicação"
+          width={130}
+          height={40}
+          className="mb-2"
+        />
+
+        <p className="text-sm">Santa Cecília | São Paulo SP</p>
+
+        {/* E-mail */}
+        <a
+          href="mailto:andre@andretomazela.com.br"
+          className="text-sm hover:underline break-all"
+        >
+          andre@andretomazela.com.br
+        </a>
+
+        {/* Ícones de contato */}
+        <div className="flex justify-center gap-6 mt-2">
+          <a
+            href="https://wa.me/5511968468668"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+            className="hover:opacity-80 transition"
+          >
+            <MessageCircle size={22} />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/andretomazela"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="hover:opacity-80 transition"
+          >
+            <Linkedin size={22} />
+          </a>
+          <a
+            href="https://www.instagram.com/andretomazela"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+            className="hover:opacity-80 transition"
+          >
+            <Instagram size={22} />
+          </a>
         </div>
-        <p className='text-xs/relaxed mt-2 opacity-90'>© {new Date().getFullYear()} Tomazela | Estratégia & Comunicação</p>
+      </div>
+
+      <div className="mt-8 text-center text-xs text-white/80">
+        © {new Date().getFullYear()} Tomazela | Estratégia & Comunicação
       </div>
     </footer>
   );
