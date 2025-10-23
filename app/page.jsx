@@ -10,7 +10,6 @@ export default function Home() {
   const [cfToken, setCfToken] = useState("");
   const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
-  // Scroll suave compensando o header
   const scrollToId = (hash) => {
     const id = hash.startsWith("#") ? hash : `#${hash}`;
     const el = document.querySelector(id);
@@ -21,7 +20,7 @@ export default function Home() {
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
-  // Turnstile
+  // Carrega/instala Turnstile
   useEffect(() => {
     if (typeof window === "undefined" || !TURNSTILE_SITE_KEY) return;
 
@@ -64,13 +63,6 @@ export default function Home() {
         setTimeout(() => clearInterval(tryRender), 5000);
       }
     }
-
-    // Fallback: libera envio se não vier token em até 3s
-    const fallback = setTimeout(() => {
-      if (!cfToken) setCfToken("manual-ok");
-    }, 3000);
-    return () => clearTimeout(fallback);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [TURNSTILE_SITE_KEY]);
 
   useEffect(() => {
@@ -79,13 +71,21 @@ export default function Home() {
     }
   }, []);
 
-  // Envio do formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSending(true);
     setErr("");
+
     const form = e.currentTarget;
     const fd = new FormData(form);
+
+    // ✅ Validação do Turnstile só aqui (não trava o botão enquanto digita)
+    if (TURNSTILE_SITE_KEY && !cfToken) {
+      setSending(false);
+      setErr("Confirme que você não é um robô (clique no verificador acima).");
+      return;
+    }
+
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -334,7 +334,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SOBRE — (RESTAURADO) */}
+      {/* SOBRE */}
       <section id="sobre" className="py-14 md:py-16 bg-white scroll-mt-28">
         <div className="container grid md:grid-cols-2 gap-10 items-center">
           <div className="rounded-2xl overflow-hidden shadow-card bg-white flex items-center justify-center">
@@ -393,25 +393,23 @@ export default function Home() {
               {/* Honeypot */}
               <input type="text" name="website" tabIndex="-1" autoComplete="off" className="hidden" />
 
-              {/* Turnstile token */}
+              {/* Token Turnstile */}
               <input type="hidden" name="turnstile" value={cfToken} />
 
-              {/* Widget / Fallback */}
+              {/* Widget (se houver chave) */}
               {TURNSTILE_SITE_KEY ? (
                 <div className="md:col-span-3">
                   <div id="cf-container" className="mt-1" />
-                  {cfToken && cfToken !== "manual-ok" && (
+                  {cfToken && (
                     <p className="text-xs text-green-700 mt-2">Verificação concluída.</p>
                   )}
                 </div>
-              ) : (
-                <input type="hidden" name="turnstile_skipped" value="1" />
-              )}
+              ) : null}
 
               <div className="md:col-span-3 flex justify-end">
                 <button
                   type="submit"
-                  disabled={sending || (Boolean(TURNSTILE_SITE_KEY) && !cfToken)}
+                  disabled={sending}  // ✅ só desabilita enquanto envia
                   className="btn btn-primary rounded-2xl px-6 disabled:opacity-60"
                 >
                   {sending ? "Enviando..." : "Enviar"}
