@@ -59,13 +59,18 @@ export default function Home() {
     <div>
       <Header />
 
-      <section id="home" className="container py-14 md:py-20 grid md:grid-cols-2 gap-10 items-center scroll-mt-28">
+      {/* HERO */}
+      <section
+        id="home"
+        className="container py-14 md:py-20 grid md:grid-cols-2 gap-10 items-center scroll-mt-28"
+      >
         <div>
           <h1 className="text-3xl md:text-5xl font-extrabold leading-tight">
             Comunicação sob medida para marcas e organizações de impacto.
           </h1>
           <p className="mt-4 text-lg text-gray-700">
-            Estratégia que posiciona, conteúdo que entrega e relações que abrem portas. Clareza, método e impacto em cada projeto.
+            Estratégia que posiciona, conteúdo que entrega e relações que abrem
+            portas. Clareza, método e impacto em cada projeto.
           </p>
           <div className="mt-6 flex gap-3">
             <a
@@ -97,19 +102,59 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SERVIÇOS v2.0 */}
       <section id="servicos" className="bg-gray-50 py-14 md:py-16 scroll-mt-28">
         <div className="container">
-          <h2 className="text-2xl md:text-3xl font-bold">O que podemos fazer por você</h2>
+          <h2 className="text-2xl md:text-3xl font-bold">
+            O que podemos fazer por você
+          </h2>
           <p className="mt-2 text-gray-600 max-w-prose">
-            Serviços pensados para empresas e organizações de impacto. Objetivo: ampliar visibilidade, fortalecer reputação e criar
-            relações consistentes.
+            Serviços pensados para empresas e organizações de impacto. Objetivo:
+            ampliar visibilidade, fortalecer reputação e criar relações
+            consistentes.
           </p>
 
           <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {/* 1. Posicionamento e narrativas de marca */}
             <div className="card">
               <div className="mb-3 text-orange-600">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round">
+                {/* IconTarget */}
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="8"></circle>
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path>
+                </svg>
+              </div>
+              <h3 className="font-semibold">Posicionamento e narrativas de marca</h3>
+              <p className="text-sm text-gray-600 mt-2">
+                Identidade verbal e narrativa para marcas, projetos e lideranças
+                que querem comunicar com autenticidade e propósito.
+              </p>
+            </div>
+
+            {/* 2. Relações com a imprensa */}
+            <div className="card">
+              <div className="mb-3 text-orange-600">
+                {/* IconMegaphone */}
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M3 11v2a4 4 0 0 0 4 4h1"></path>
                   <path d="M21 8v8"></path>
                   <path d="M7 15v-6"></path>
@@ -119,14 +164,50 @@ export default function Home() {
               </div>
               <h3 className="font-semibold">Relações com a imprensa</h3>
               <p className="text-sm text-gray-600 mt-2">
-                Criação de pautas e materiais estratégicos para fortalecer sua marca na mídia.
+                Criação de pautas e materiais estratégicos para fortalecer sua
+                marca na mídia.
               </p>
             </div>
 
+            {/* 3. Estratégia e reputação */}
             <div className="card">
               <div className="mb-3 text-orange-600">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round">
+                {/* IconShieldStar */}
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4Z"></path>
+                  <path d="M12 8l1.2 2.4 2.6.4-1.9 1.9.5 2.7L12 14.5 9.6 15.4l.5-2.7-1.9-1.9 2.6-.4L12 8Z"></path>
+                </svg>
+              </div>
+              <h3 className="font-semibold">Estratégia e reputação</h3>
+              <p className="text-sm text-gray-600 mt-2">
+                Diagnóstico e plano de comunicação para fortalecer reputação e
+                alinhar propósito, voz e presença.
+              </p>
+            </div>
+
+            {/* 4. Redes sociais */}
+            <div className="card">
+              <div className="mb-3 text-orange-600">
+                {/* IconChat */}
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
                 </svg>
               </div>
@@ -136,14 +217,49 @@ export default function Home() {
               </p>
             </div>
 
+            {/* 5. Comunicação interna e cultura */}
             <div className="card">
               <div className="mb-3 text-orange-600">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round">
+                {/* IconUsers */}
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="9" cy="7" r="4"></circle>
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <h3 className="font-semibold">Comunicação interna e cultura</h3>
+              <p className="text-sm text-gray-600 mt-2">
+                Campanhas e ações de engajamento que fortalecem diálogo e
+                pertencimento.
+              </p>
+            </div>
+
+            {/* 6. Parcerias com influenciadores */}
+            <div className="card">
+              <div className="mb-3 text-orange-600">
+                {/* IconSparkles */}
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 3l1.5 3.5L17 8l-3.5 1.5L12 13l-1.5-3.5L7 8l3.5-1.5L12 3Z"></path>
+                  <path d="M19 14l.8 1.8L22 16l-1.8.8L19 19l-.8-2.2L16 16l2.2-.2L19 14Z"></path>
                 </svg>
               </div>
               <h3 className="font-semibold">Parcerias com influenciadores</h3>
@@ -152,26 +268,20 @@ export default function Home() {
               </p>
             </div>
 
+            {/* 7. Criação de conteúdo */}
             <div className="card">
               <div className="mb-3 text-orange-600">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="16" y1="2" x2="16" y2="6"></line>
-                  <line x1="8" y1="2" x2="8" y2="6"></line>
-                  <line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
-              </div>
-              <h3 className="font-semibold">Planejamento de eventos</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                Organização e divulgação de ações que destaquem sua marca.
-              </p>
-            </div>
-
-            <div className="card">
-              <div className="mb-3 text-orange-600">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round">
+                {/* IconDoc */}
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                   <path d="M14 2v6h6"></path>
                   <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -185,13 +295,47 @@ export default function Home() {
               </p>
             </div>
 
+            {/* 8. Planejamento de eventos */}
             <div className="card">
               <div className="mb-3 text-orange-600">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 3v4"></path><path d="M3 5h4"></path>
-                  <path d="M19 13v4"></path><path d="M17 15h4"></path>
-                  <path d="M12 7l2 4 4 2-4 2-2 4-2-4-4-2 4-2 2-4z"></path>
+                {/* IconCalendar */}
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </div>
+              <h3 className="font-semibold">Planejamento de eventos</h3>
+              <p className="text-sm text-gray-600 mt-2">
+                Organização e divulgação de ações que destaquem sua marca.
+              </p>
+            </div>
+
+            {/* 9. O que mais você precisa? */}
+            <div className="card">
+              <div className="mb-3 text-orange-600">
+                {/* IconMore */}
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 5v14M5 12h14"></path>
                 </svg>
               </div>
               <h3 className="font-semibold">O que mais você precisa?</h3>
@@ -214,6 +358,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SOBRE */}
       <section id="sobre" className="py-14 md:py-16 bg-white scroll-mt-28">
         <div className="container grid md:grid-cols-2 gap-10 items-center">
           <div className="rounded-2xl overflow-hidden shadow-card bg-white flex items-center justify-center">
@@ -227,11 +372,13 @@ export default function Home() {
           <div>
             <h2 className="text-2xl md:text-3xl font-bold">Quem é André Tomazela</h2>
             <p className="mt-4 text-gray-700">
-              Jornalista e estrategista de comunicação com experiência em empresas, agências e projetos editoriais. Entrega clara,
-              sem enrolação, com foco em resultado.
+              Jornalista e estrategista de comunicação com experiência em
+              empresas, agências e projetos editoriais. Entrega clara, sem
+              enrolação, com foco em resultado.
             </p>
             <p className="mt-3 text-gray-700">
-              Pós-graduação em Gestão da Comunicação em Mídias Digitais (Senac-SP). Reportagens e especiais para o Valor Econômico.
+              Pós-graduação em Gestão da Comunicação em Mídias Digitais
+              (Senac-SP). Reportagens e especiais para o Valor Econômico.
               Atuação com organizações de impacto e negócios.
             </p>
             <a
@@ -248,18 +395,38 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="contato" className="py-14 md:py-16 bg-gradient-to-t from-orange-50 to-white border-t scroll-mt-28">
+      {/* CONTATO */}
+      <section
+        id="contato"
+        className="py-14 md:py-16 bg-gradient-to-t from-orange-50 to-white border-t scroll-mt-28"
+      >
         <div className="container">
           <h2 className="text-2xl md:text-3xl font-bold">Vamos conversar?</h2>
           <p className="mt-2 text-gray-700 max-w-prose">
-            Conte rápido seu objetivo. Eu respondo com um caminho claro e um pacote de soluções sob medida.
+            Conte rápido seu objetivo. Eu respondo com um caminho claro e um
+            pacote de soluções sob medida.
           </p>
 
           {!sent ? (
             <form onSubmit={handleSubmit} className="grid gap-3 md:grid-cols-3">
-              <input name="nome" placeholder="Nome" required className={`md:col-span-1 ${inputCls}`} />
-              <input type="email" name="email" placeholder="E-mail" required className={`md:col-span-1 ${inputCls}`} />
-              <input name="telefone" placeholder="Telefone (opcional)" className={`md:col-span-1 ${inputCls}`} />
+              <input
+                name="nome"
+                placeholder="Nome"
+                required
+                className={`md:col-span-1 ${inputCls}`}
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="E-mail"
+                required
+                className={`md:col-span-1 ${inputCls}`}
+              />
+              <input
+                name="telefone"
+                placeholder="Telefone (opcional)"
+                className={`md:col-span-1 ${inputCls}`}
+              />
               <textarea
                 name="mensagem"
                 placeholder="Como posso ajudar?"
