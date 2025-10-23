@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -7,9 +7,13 @@ export default function Home() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [err, setErr] = useState("");
-  const [cfToken, setCfToken] = useState("");
-  const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
+  // Turnstile
+  const [cfToken, setCfToken] = useState("");
+  const tRef = useRef(null);              // container do widget
+  const widgetIdRef = useRef(null);       // id retornado pelo render
+
+  // scroll suave para âncoras com compensação do header
   const scrollToId = (hash) => {
     const id = hash.startsWith("#") ? hash : `#${hash}`;
     const el = document.querySelector(id);
@@ -20,50 +24,49 @@ export default function Home() {
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
-  // Carrega/instala Turnstile
+  // garante script + render programático do Turnstile
   useEffect(() => {
-    if (typeof window === "undefined" || !TURNSTILE_SITE_KEY) return;
+    if (typeof window === "undefined") return;
 
-    if (!window.onTurnstileVerify) {
-      window.onTurnstileVerify = (token) => setCfToken(token);
-    }
-
-    const renderWidget = () => {
-      const host = document.getElementById("cf-container");
-      if (!host || !window.turnstile) return;
-      host.innerHTML = "";
-      window.turnstile.render("#cf-container", {
-        sitekey: TURNSTILE_SITE_KEY,
-        callback: (token) => setCfToken(token),
-        "expired-callback": () => setCfToken(""),
-        "error-callback": () => setCfToken(""),
-        theme: "light",
-      });
+    // callback global chamado quando o script carrega
+    window.__onTurnstileReady = () => {
+      if (window.turnstile && tRef.current && !widgetIdRef.current) {
+        widgetIdRef.current = window.turnstile.render(tRef.current, {
+          sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+          theme: "light",               // opcional
+          callback: (token) => setCfToken(token),
+          "expired-callback": () => setCfToken(""),
+          "error-callback": () => setCfToken(""),
+          refreshExpired: "auto",
+        });
+      }
     };
 
-    if (window.turnstile) {
-      renderWidget();
-    } else {
-      const existing = document.querySelector('script[data-turnstile="1"]');
-      if (!existing) {
-        const s = document.createElement("script");
-        s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
-        s.async = true;
-        s.defer = true;
-        s.setAttribute("data-turnstile", "1");
-        s.onload = renderWidget;
-        document.body.appendChild(s);
-      } else {
-        const tryRender = setInterval(() => {
-          if (window.turnstile) {
-            clearInterval(tryRender);
-            renderWidget();
-          }
-        }, 100);
-        setTimeout(() => clearInterval(tryRender), 5000);
-      }
+    // injeta o script apenas uma vez
+    const already = document.querySelector('script[data-turnstile="1"]');
+    if (!already) {
+      const s = document.createElement("script");
+      s.src =
+        "https://challenges.cloudflare.com/turnstile/v0/api.js?onload=__onTurnstileReady";
+      s.async = true;
+      s.defer = true;
+      s.setAttribute("data-turnstile", "1");
+      document.body.appendChild(s);
+    } else if (window.turnstile) {
+      // script já carregado
+      window.__onTurnstileReady();
     }
-  }, [TURNSTILE_SITE_KEY]);
+
+    return () => {
+      // limpa widget se a página desmontar (opcional)
+      if (window.turnstile && widgetIdRef.current) {
+        try {
+          window.turnstile.remove(widgetIdRef.current);
+        } catch {}
+        widgetIdRef.current = null;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (window.location.hash) {
@@ -79,23 +82,22 @@ export default function Home() {
     const form = e.currentTarget;
     const fd = new FormData(form);
 
-    // ✅ Validação do Turnstile só aqui (não trava o botão enquanto digita)
-    if (TURNSTILE_SITE_KEY && !cfToken) {
-      setSending(false);
-      setErr("Confirme que você não é um robô (clique no verificador acima).");
-      return;
-    }
-
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { Accept: "application/json" },
         body: fd,
       });
+
       if (res.ok) {
         setSent(true);
         form.reset();
         setCfToken("");
+
+        // reseta o widget para gerar novo token
+        if (window.turnstile && widgetIdRef.current) {
+          window.turnstile.reset(widgetIdRef.current);
+        }
       } else {
         const j = await res.json().catch(() => ({}));
         setErr(j.error || "Não foi possível enviar.");
@@ -297,7 +299,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 9 — CTA destacado */}
+            {/* 9 — CTA invertido */}
             <div
               className="rounded-2xl p-6 bg-[#FF4D00] text-white shadow-lg hover:opacity-90 transition cursor-pointer ring-1 ring-black/5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF4D00]"
               role="button"
@@ -390,26 +392,21 @@ export default function Home() {
               <input name="telefone" placeholder="Telefone (opcional)" className={`md:col-span-1 ${inputCls}`} />
               <textarea name="mensagem" placeholder="Como posso ajudar?" rows={5} className={`md:col-span-3 ${inputCls}`} />
 
-              {/* Honeypot */}
+              {/* Honeypot invisível */}
               <input type="text" name="website" tabIndex="-1" autoComplete="off" className="hidden" />
 
-              {/* Token Turnstile */}
+              {/* Token hidden */}
               <input type="hidden" name="turnstile" value={cfToken} />
 
-              {/* Widget (se houver chave) */}
-              {TURNSTILE_SITE_KEY ? (
-                <div className="md:col-span-3">
-                  <div id="cf-container" className="mt-1" />
-                  {cfToken && (
-                    <p className="text-xs text-green-700 mt-2">Verificação concluída.</p>
-                  )}
-                </div>
-              ) : null}
+              {/* Container do Turnstile (render programático) */}
+              <div className="md:col-span-3">
+                <div ref={tRef} className="mt-1" />
+              </div>
 
               <div className="md:col-span-3 flex justify-end">
                 <button
                   type="submit"
-                  disabled={sending}  // ✅ só desabilita enquanto envia
+                  disabled={!cfToken || sending}
                   className="btn btn-primary rounded-2xl px-6 disabled:opacity-60"
                 >
                   {sending ? "Enviando..." : "Enviar"}
