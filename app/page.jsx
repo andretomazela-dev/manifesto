@@ -20,7 +20,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.location.hash) {
+    if (window.location.hash) {
       setTimeout(() => scrollToId(window.location.hash), 0);
     }
   }, []);
@@ -241,19 +241,36 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 9. O que mais você precisa?  -> DESTAQUE (opção 1) */}
-            <div className="card bg-orange-50 border border-orange-200 hover:shadow-md transition">
-              <div className="mb-3 text-orange-600">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            {/* 9. CTA destacado – opção 3 (invertido) */}
+            <div
+              className="card bg-[#FF4D00] text-white shadow-lg hover:opacity-90 transition cursor-pointer"
+              role="button"
+              tabIndex={0}
+              onClick={() => scrollToId("#contato")}
+              onKeyDown={(e) => e.key === "Enter" && scrollToId("#contato")}
+              aria-label="Montamos um pacote sob medida — fale com a gente"
+            >
+              <div className="mb-3">
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <path d="M12 5v14M5 12h14"></path>
                 </svg>
               </div>
-              <h3 className="font-semibold text-orange-800">
-                O que mais você precisa?
-              </h3>
-              <p className="text-sm text-orange-700 mt-2">
+              <h3 className="font-semibold">O que mais você precisa?</h3>
+              <p className="text-sm mt-2 opacity-90">
                 Montamos um pacote sob medida, de acordo com suas necessidades.
               </p>
+              <span className="mt-3 inline-block text-xs font-semibold bg-white/15 rounded-full px-3 py-1">
+                Clique para falar com a gente
+              </span>
             </div>
           </div>
 
@@ -308,7 +325,10 @@ export default function Home() {
       </section>
 
       {/* CONTATO */}
-      <section id="contato" className="py-14 md:py-16 bg-gradient-to-t from-orange-50 to-white border-t scroll-mt-28">
+      <section
+        id="contato"
+        className="py-14 md:py-16 bg-gradient-to-t from-orange-50 to-white border-t scroll-mt-28"
+      >
         <div className="container">
           <h2 className="text-2xl md:text-3xl font-bold">Vamos conversar?</h2>
           <p className="mt-2 text-gray-700 max-w-prose">
