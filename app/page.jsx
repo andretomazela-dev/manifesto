@@ -1,5 +1,3 @@
-import Script from "next/script";
-
 "use client";
 import { useState, useEffect } from "react";
 import Header from "@/components/Header";
