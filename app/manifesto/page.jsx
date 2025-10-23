@@ -19,9 +19,9 @@ export default function Manifesto() {
             COMUNICAÇÃO COM PROPÓSITO. ESTRATÉGIA COM CONSCIÊNCIA.
           </h1>
           <p className="mt-6 text-lg text-gray-700 max-w-prose">
-            Acreditamos que a comunicação é uma ferramenta poderosa para 
-            transformar o mundo. Mas transformação de verdade só acontece quando 
-            há espaço para todo mundo. Por isso, nossa atuação é guiada por 
+            Acreditamos que a comunicação é uma ferramenta poderosa para
+            transformar o mundo. Mas transformação de verdade só acontece quando
+            há espaço para todo mundo. Por isso, nossa atuação é guiada por
             valores que fazem sentido para nós e para quem compartilha dessa visão.
           </p>
         </section>
@@ -34,7 +34,7 @@ export default function Manifesto() {
             <ul className="space-y-4 text-gray-800 leading-relaxed">
               <li>
                 <strong>🌍 Justiça Social</strong><br />
-                O mundo só será bom para TODO MUNDO quando houver distribuição
+                O mundo só será bom para todo mundo quando houver distribuição
                 de riqueza e equidade de oportunidades.
               </li>
               <li>
@@ -45,31 +45,31 @@ export default function Manifesto() {
               <li>
                 <strong>✊🏿 Reparação Histórica</strong><br />
                 Os descendentes de povos escravizados têm direito à terra, às
-                posses, à dignidade. Sem &quot;mas&quot;, sem &quot;e se&quot;.
+                posses e à dignidade. Sem &quot;mas&quot; e sem &quot;e se&quot;.
               </li>
               <li>
                 <strong>🕊️ Liberdade Religiosa (com responsabilidade)</strong><br />
-                Todas as religiões merecem respeito… menos as que promovem ódio
+                Todas as religiões merecem respeito, exceto as que promovem ódio
                 e preconceito. Respeitamos, mas não somos ingênuos.
               </li>
               <li>
                 <strong>❤️‍🩹 Saúde e Educação de Qualidade</strong><br />
-                Direito de todos, dever do Estado. Viva o SUS!
+                Direito de todos, dever do Estado. Viva o SUS.
               </li>
               <li>
                 <strong>🌈 Diversidade e Inclusão</strong><br />
-                O preconceito é ignorância. A sexualidade de cada um é livre,
+                O preconceito é ignorância. A sexualidade de cada pessoa é livre,
                 natural e merece respeito.
               </li>
               <li>
                 <strong>💪 Quebrando Padrões</strong><br />
-                A diversidade de corpos é linda. Padrões de beleza são só…
-                padrões. E estamos aqui para desconstruí-los.
+                A diversidade de corpos é linda. Padrões de beleza são apenas padrões.
+                E estamos aqui para desconstruí-los.
               </li>
               <li>
                 <strong>🤝 Conexões Reais</strong><br />
-                Curtidas não substituem relações reais. Bora viver o mundo
-                offline também!
+                Curtidas não substituem relações verdadeiras. É preciso viver o mundo
+                offline também.
               </li>
               <li>
                 <strong>🧠 Saúde Mental é Prioridade</strong><br />
@@ -120,7 +120,7 @@ export default function Manifesto() {
             <p className="mt-4 text-gray-700">
               A Tomazela | Estratégia &amp; Comunicação nasceu para conectar
               marcas e projetos a públicos que compartilham valores reais. Aqui,
-              a comunicação vai além do marketing: ela constrói narrativas,
+              a comunicação vai além do marketing: constrói narrativas,
               fortalece causas e dá voz a quem precisa ser ouvido.
             </p>
             <p className="mt-3 text-gray-700">
