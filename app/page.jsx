@@ -4,16 +4,17 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export default function Home() {
+  // Estados do formulário
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [err, setErr] = useState("");
 
   // Turnstile
   const [cfToken, setCfToken] = useState("");
-  const tRef = useRef(null);              // container do widget
-  const widgetIdRef = useRef(null);       // id retornado pelo render
+  const turnstileRef = useRef(null);      // container onde o widget será renderizado
+  const widgetIdRef = useRef(null);       // id do widget renderizado
 
-  // scroll suave para âncoras com compensação do header
+  // Scroll suave com compensação do header
   const scrollToId = (hash) => {
     const id = hash.startsWith("#") ? hash : `#${hash}`;
     const el = document.querySelector(id);
@@ -24,41 +25,51 @@ export default function Home() {
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
-  // garante script + render programático do Turnstile
+  // Carrega script do Turnstile e renderiza o widget de forma programática
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    // callback global chamado pelo Turnstile quando o visitante é verificado
+    if (!window.onTurnstileVerify) {
+      window.onTurnstileVerify = (token) => {
+        setCfToken(token);
+        // console.debug("Turnstile token:", token);
+      };
+    }
 
-    // callback global chamado quando o script carrega
-    window.__onTurnstileReady = () => {
-      if (window.turnstile && tRef.current && !widgetIdRef.current) {
-        widgetIdRef.current = window.turnstile.render(tRef.current, {
+    // Evita incluir script duplicado
+    let script = document.querySelector('script[data-turnstile="1"]');
+    if (!script) {
+      script = document.createElement("script");
+      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+      script.async = true;
+      script.defer = true;
+      script.setAttribute("data-turnstile", "1");
+      document.body.appendChild(script);
+    }
+
+    // quando o script estiver pronto, renderiza o widget
+    const tryRender = () => {
+      if (window.turnstile && turnstileRef.current && !widgetIdRef.current) {
+        widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
           sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
-          theme: "light",               // opcional
-          callback: (token) => setCfToken(token),
-          "expired-callback": () => setCfToken(""),
-          "error-callback": () => setCfToken(""),
-          refreshExpired: "auto",
+          callback: "onTurnstileVerify",
+          // Aparência “não interativa” para forçar exibição do badge/iframe
+          appearance: "interaction-only", // mostra o verificador quando preciso
+          action: "contact",
+          retry: "auto",
+          theme: "light",
         });
       }
     };
 
-    // injeta o script apenas uma vez
-    const already = document.querySelector('script[data-turnstile="1"]');
-    if (!already) {
-      const s = document.createElement("script");
-      s.src =
-        "https://challenges.cloudflare.com/turnstile/v0/api.js?onload=__onTurnstileReady";
-      s.async = true;
-      s.defer = true;
-      s.setAttribute("data-turnstile", "1");
-      document.body.appendChild(s);
-    } else if (window.turnstile) {
-      // script já carregado
-      window.__onTurnstileReady();
-    }
+    // tenta renderizar imediatamente (caso o script já esteja cacheado)
+    tryRender();
+
+    // e também tenta quando o script terminar de carregar
+    script.addEventListener("load", tryRender);
 
     return () => {
-      // limpa widget se a página desmontar (opcional)
+      script.removeEventListener("load", tryRender);
+      // limpa widget ao desmontar (boa prática)
       if (window.turnstile && widgetIdRef.current) {
         try {
           window.turnstile.remove(widgetIdRef.current);
@@ -68,12 +79,14 @@ export default function Home() {
     };
   }, []);
 
+  // Se a página abriu com hash, faz scroll suave
   useEffect(() => {
     if (window.location.hash) {
       setTimeout(() => scrollToId(window.location.hash), 0);
     }
   }, []);
 
+  // Envio (vai para /api/contact, que valida Turnstile e encaminha ao Formspree)
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSending(true);
@@ -93,17 +106,23 @@ export default function Home() {
         setSent(true);
         form.reset();
         setCfToken("");
-
-        // reseta o widget para gerar novo token
+        // Recarrega o widget para um novo token
         if (window.turnstile && widgetIdRef.current) {
           window.turnstile.reset(widgetIdRef.current);
         }
       } else {
         const j = await res.json().catch(() => ({}));
         setErr(j.error || "Não foi possível enviar.");
+        // Em erro, também reseta o widget
+        if (window.turnstile && widgetIdRef.current) {
+          window.turnstile.reset(widgetIdRef.current);
+        }
       }
     } catch {
       setErr("Falha de rede.");
+      if (window.turnstile && widgetIdRef.current) {
+        window.turnstile.reset(widgetIdRef.current);
+      }
     } finally {
       setSending(false);
     }
@@ -299,7 +318,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 9 — CTA invertido */}
+            {/* 9 — CTA destacado */}
             <div
               className="rounded-2xl p-6 bg-[#FF4D00] text-white shadow-lg hover:opacity-90 transition cursor-pointer ring-1 ring-black/5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF4D00]"
               role="button"
@@ -395,12 +414,17 @@ export default function Home() {
               {/* Honeypot invisível */}
               <input type="text" name="website" tabIndex="-1" autoComplete="off" className="hidden" />
 
-              {/* Token hidden */}
+              {/* Token Turnstile */}
               <input type="hidden" name="turnstile" value={cfToken} />
 
-              {/* Container do Turnstile (render programático) */}
+              {/* Turnstile (programático) */}
               <div className="md:col-span-3">
-                <div ref={tRef} className="mt-1" />
+                <div
+                  ref={turnstileRef}
+                  // garante que o iframe tenha área visível
+                  style={{ minHeight: 70 }}
+                  className="mt-1"
+                />
               </div>
 
               <div className="md:col-span-3 flex justify-end">
