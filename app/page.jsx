@@ -68,8 +68,8 @@ export default function Home() {
             Comunicação sob medida para marcas e organizações de impacto.
           </h1>
         <p className="mt-4 text-lg text-gray-700">
-            Estratégia que posiciona, conteúdo que entrega e relações que abrem
-            portas. Clareza, método e impacto em cada projeto.
+          Estratégia que posiciona, conteúdo que conecta e relações que abrem 
+          portas. Clareza, método e propósito em cada projeto.
           </p>
           <div className="mt-6 flex gap-3">
             <a
