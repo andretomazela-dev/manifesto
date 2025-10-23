@@ -19,7 +19,7 @@ export default function Home() {
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
-  // Carrega script do Turnstile e registra o callback global uma única vez
+  // Carrega o script do Turnstile e registra o callback global
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (!window.onTurnstileVerify) {
@@ -50,7 +50,7 @@ export default function Home() {
     const form = e.currentTarget;
     const fd = new FormData(form);
     try {
-      // Envia para nosso endpoint que valida o Turnstile e encaminha ao Formspree
+      // Envia para o endpoint /api/contact (valida Turnstile e encaminha ao Formspree)
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { Accept: "application/json" },
@@ -271,16 +271,7 @@ export default function Home() {
               aria-label="Montamos um pacote sob medida — fale com a gente"
             >
               <div className="mb-3">
-                <svg
-                  width="28"
-                  height="28"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 5v14M5 12h14"></path>
                 </svg>
               </div>
@@ -344,113 +335,45 @@ export default function Home() {
         </div>
       </section>
 
-     {/* CONTATO */}
-<section
-  id="contato"
-  className="py-14 md:py-16 bg-gradient-to-t from-orange-50 to-white border-t scroll-mt-28"
->
-  <div className="container">
-    <h2 className="text-2xl md:text-3xl font-bold">Vamos conversar?</h2>
-    <p className="mt-2 text-gray-700 max-w-prose">
-      Conte rápido seu objetivo. Eu respondo com um caminho claro e um
-      pacote de soluções sob medida.
-    </p>
+      {/* CONTATO */}
+      <section
+        id="contato"
+        className="py-14 md:py-16 bg-gradient-to-t from-orange-50 to-white border-t scroll-mt-28"
+      >
+        <div className="container">
+          <h2 className="text-2xl md:text-3xl font-bold">Vamos conversar?</h2>
+          <p className="mt-2 text-gray-700 max-w-prose">
+            Conte rápido seu objetivo. Eu respondo com um caminho claro e um
+            pacote de soluções sob medida.
+          </p>
 
-    {/* Turnstile script */}
-    <Script
-      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-      async
-      defer
-      onReady={() => {
-        // nada aqui; o callback do widget abaixo é quem libera o botão
-      }}
-    />
-
-    {/*
-      Estado local para liberar o botão.
-      Fallback: se não carregar em 3s (bloqueador, etc.), libera mesmo assim.
-    */}
-    {/* eslint-disable-next-line react-hooks/rules-of-hooks */}
-    {(() => {
-      // truque pequeno para manter o patch concentrado neste bloco
-      const React = require("react");
-      const { useState, useEffect } = React;
-      const [captchaOk, setCaptchaOk] = useState(false);
-
-      useEffect(() => {
-        const t = setTimeout(() => setCaptchaOk(true), 3000); // fallback
-        return () => clearTimeout(t);
-      }, []);
-
-      // sobrescreve o handler de submit usando a função já existente no seu componente
-      const onSubmit = async (e) => {
-        if (!captchaOk) return; // evita double submit se o usuário clicar muito cedo
-        return (async () => {
-          // chama o handleSubmit original via dataset do form
-          const form = e.currentTarget;
-          if (form && form.dataset && form.dataset.submitfn) {
-            // nada extra: o seu handleSubmit já será acionado no onSubmit do <form>
-          }
-        })();
-      };
-
-      return (
-        <>
           {!sent ? (
-            <form
-              onSubmit={handleSubmit}
-              data-submitfn="ok"
-              onInvalid={() => {}}
-              className="grid gap-3 md:grid-cols-3"
-            >
-              <input
-                name="nome"
-                placeholder="Nome"
-                required
-                className={`md:col-span-1 ${inputCls}`}
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="E-mail"
-                required
-                className={`md:col-span-1 ${inputCls}`}
-              />
-              <input
-                name="telefone"
-                placeholder="Telefone (opcional)"
-                className={`md:col-span-1 ${inputCls}`}
-              />
-              <textarea
-                name="mensagem"
-                placeholder="Como posso ajudar?"
-                rows={5}
-                className={`md:col-span-3 ${inputCls}`}
-              />
+            <form onSubmit={handleSubmit} className="grid gap-3 md:grid-cols-3">
+              <input name="nome" placeholder="Nome" required className={`md:col-span-1 ${inputCls}`} />
+              <input type="email" name="email" placeholder="E-mail" required className={`md:col-span-1 ${inputCls}`} />
+              <input name="telefone" placeholder="Telefone (opcional)" className={`md:col-span-1 ${inputCls}`} />
+              <textarea name="mensagem" placeholder="Como posso ajudar?" rows={5} className={`md:col-span-3 ${inputCls}`} />
 
-              {/* Widget Turnstile (invisível/compacto) */}
+              {/* Honeypot invisível */}
+              <input type="text" name="website" tabIndex="-1" autoComplete="off" className="hidden" />
+
+              {/* Token Turnstile hidden */}
+              <input type="hidden" name="turnstile" value={cfToken} />
+
+              {/* Widget Turnstile */}
               <div className="md:col-span-3">
                 <div
-                  className="cf-turnstile"
+                  className="cf-turnstile mt-1"
                   data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-                  data-callback={() => setCaptchaOk(true)}
-                  data-error-callback={() => setCaptchaOk(false)}
-                  data-expired-callback={() => setCaptchaOk(false)}
-                  data-theme="light"
+                  data-callback="onTurnstileVerify"
                 />
-                <noscript>
-                  <div className="text-sm text-gray-500 mt-2">
-                    Ative o JavaScript para validar que você não é um robô.
-                  </div>
-                </noscript>
               </div>
 
               <div className="md:col-span-3 flex justify-end">
                 <button
                   type="submit"
-                  onClick={onSubmit}
-                  className="btn btn-primary rounded-2xl px-6 disabled:opacity-50 disabled:cursor-not-allowed"
-                  disabled={!captchaOk || sending}
+                  disabled={!cfToken || sending}
+                  className="btn btn-primary rounded-2xl px-6 disabled:opacity-60"
                 >
                   {sending ? "Enviando..." : "Enviar"}
                 </button>
@@ -467,25 +390,22 @@ export default function Home() {
               {err}
             </div>
           )}
-        </>
-      );
-    })()}
 
-    <div className="mt-6 text-sm text-gray-600 flex flex-wrap gap-4 items-center">
-      <a className="underline" href="mailto:andre@andretomazela.com.br">
-        andre@andretomazela.com.br
-      </a>
-      <span>•</span>
-      <a className="underline" href="https://wa.me/message/TUNCL3KFQIECM1">
-        WhatsApp
-      </a>
-      <span>•</span>
-      <a className="underline" href="https://www.linkedin.com/in/tomazela/">
-        LinkedIn
-      </a>
-    </div>
-  </div>
-</section>
+          <div className="mt-6 text-sm text-gray-600 flex flex-wrap gap-4 items-center">
+            <a className="underline" href="mailto:andre@andretomazela.com.br">
+              andre@andretomazela.com.br
+            </a>
+            <span>•</span>
+            <a className="underline" href="https://wa.me/message/TUNCL3KFQIECM1">
+              WhatsApp
+            </a>
+            <span>•</span>
+            <a className="underline" href="https://www.linkedin.com/in/tomazela/">
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </div>
