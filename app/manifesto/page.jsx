@@ -19,11 +19,10 @@ export default function Manifesto() {
             COMUNICAÇÃO COM PROPÓSITO. ESTRATÉGIA COM CONSCIÊNCIA.
           </h1>
           <p className="mt-6 text-lg text-gray-700 max-w-prose">
-            Acreditamos que a comunicação é uma ferramenta poderosa para
-            transformar o mundo. Mas transformação de verdade só acontece quando
-            há espaço para todo mundo. Por isso, nossa atuação é guiada por
-            valores que fazem sentido para nós e para as pessoas e marcas que
-            acreditam no mesmo.
+            Acreditamos que a comunicação é uma ferramenta poderosa para 
+            transformar o mundo. Mas transformação de verdade só acontece quando 
+            há espaço para todo mundo. Por isso, nossa atuação é guiada por 
+            valores que fazem sentido para nós e para quem compartilha dessa visão.
           </p>
         </section>
 
