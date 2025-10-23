@@ -337,14 +337,16 @@ export default function Home() {
                 >
                   <path d="M12 5v14M5 12h14"></path>
                 </svg>
-              </div>
-              <h3 className="font-semibold">O que mais você precisa?</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                Montamos um pacote sob medida, de acordo com suas necessidades.
-              </p>
-            </div>
-          </div>
-
+               </div>
+<div className="card bg-orange-50 border border-orange-200 hover:shadow-md transition">
+  <div className="mb-3 text-orange-600">
+    <svg width="28" height="28" ...>...</svg>
+  </div>
+  <h3 className="font-semibold text-orange-800">O que mais você precisa?</h3>
+  <p className="text-sm text-orange-700 mt-2">
+    Montamos um pacote sob medida, de acordo com suas necessidades.
+  </p>
+</div>
           <a
             href="#contato"
             onClick={(e) => {
