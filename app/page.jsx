@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Link from "next/link";
 
 export default function Home() {
   const [sent, setSent] = useState(false);
@@ -68,7 +67,7 @@ export default function Home() {
           <h1 className="text-3xl md:text-5xl font-extrabold leading-tight">
             Comunicação sob medida para marcas e organizações de impacto.
           </h1>
-          <p className="mt-4 text-lg text-gray-700">
+        <p className="mt-4 text-lg text-gray-700">
             Estratégia que posiciona, conteúdo que entrega e relações que abrem
             portas. Clareza, método e impacto em cada projeto.
           </p>
@@ -102,7 +101,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SERVIÇOS v2.0 */}
+      {/* SERVIÇOS */}
       <section id="servicos" className="bg-gray-50 py-14 md:py-16 scroll-mt-28">
         <div className="container">
           <h2 className="text-2xl md:text-3xl font-bold">
@@ -115,7 +114,7 @@ export default function Home() {
           </p>
 
           <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {/* 1. Posicionamento e narrativas de marca */}
+            {/* 1 */}
             <div className="card">
               <div className="mb-3 text-orange-600">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -131,7 +130,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 2. Relações com a imprensa */}
+            {/* 2 */}
             <div className="card">
               <div className="mb-3 text-orange-600">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -149,7 +148,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 3. Estratégia e reputação */}
+            {/* 3 */}
             <div className="card">
               <div className="mb-3 text-orange-600">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -164,7 +163,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 4. Redes sociais */}
+            {/* 4 */}
             <div className="card">
               <div className="mb-3 text-orange-600">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -177,7 +176,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 5. Comunicação interna e cultura */}
+            {/* 5 */}
             <div className="card">
               <div className="mb-3 text-orange-600">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -194,7 +193,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 6. Parcerias com influenciadores */}
+            {/* 6 */}
             <div className="card">
               <div className="mb-3 text-orange-600">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -208,7 +207,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 7. Criação de conteúdo */}
+            {/* 7 */}
             <div className="card">
               <div className="mb-3 text-orange-600">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -225,7 +224,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 8. Planejamento de eventos */}
+            {/* 8 */}
             <div className="card">
               <div className="mb-3 text-orange-600">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -241,9 +240,9 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 9. CTA destacado – opção 3 (invertido) */}
+            {/* 9 — CTA invertido, sem usar .card */}
             <div
-              className="card bg-[#FF4D00] text-white shadow-lg hover:opacity-90 transition cursor-pointer"
+              className="rounded-2xl p-6 bg-[#FF4D00] text-white shadow-lg hover:opacity-90 transition cursor-pointer ring-1 ring-black/5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF4D00]"
               role="button"
               tabIndex={0}
               onClick={() => scrollToId("#contato")}
@@ -265,7 +264,7 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="font-semibold">O que mais você precisa?</h3>
-              <p className="text-sm mt-2 opacity-90">
+              <p className="text-sm mt-2 opacity-95">
                 Montamos um pacote sob medida, de acordo com suas necessidades.
               </p>
               <span className="mt-3 inline-block text-xs font-semibold bg-white/15 rounded-full px-3 py-1">
