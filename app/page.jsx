@@ -305,17 +305,17 @@ export default function Home() {
           <div>
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Quem é André Tomazela</h2>
             <p className="text-gray-700">
-              Jornalista pela Unesp-Bauru, com especialização na PUC-SP e 
-              pós em Mídias Digitais pelo Senac-SP. Há mais de 20 anos, atuo 
-              com comunicação interna, cultura organizacional, jornadas 
-              do colaborador, conteúdo estratégico e gestão de canais digitais 
-              em empresas, agências e organizações.               
+             Sou jornalista formado pela Unesp-Bauru e pós-graudado em 
+              Mídias Digitais pelo Senac-SP. Há mais de 20 anos, conduzo projetos 
+              de comunicação interna, cultura organizacional, 
+              jornadas do colaborador, conteúdo estratégico e 
+              gestão de canais digitais para empresas, agências e organizações.            
             </p>
             <p className="mt-3 text-gray-700">
-              Como repórter do Valor Econômico, elaboro matérias 
-              para projetos especiais em sustentabilidade, 
-              meio ambiente, inovação, infraestrutura e logística, energia, 
-              saneamento básico, agronegócios e COP 30.
+              Como repórter do Valor Econômico, elaboro matérias para 
+              projetos especiais em sustentabilidade, meio ambiente, 
+              inovação, infraestrutura e logística, 
+              energia, saneamento básico, agronegócios e COP 30.
             </p>
             <Link
               href="https://www.linkedin.com/in/tomazela"
