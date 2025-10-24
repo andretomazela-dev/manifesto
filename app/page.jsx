@@ -21,7 +21,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (window.location.hash) {
+    if (typeof window !== "undefined" && window.location.hash) {
       setTimeout(() => scrollToId(window.location.hash), 0);
     }
   }, []);
@@ -124,7 +124,7 @@ export default function Home() {
             consistentes.
           </p>
 
-          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {/* 1 */}
             <div className="card">
               <div className="mb-3 text-orange-600">
@@ -292,49 +292,56 @@ export default function Home() {
       <section id="sobre" className="py-14 md:py-16 bg-white scroll-mt-28">
         <div className="container grid md:grid-cols-2 gap-10 items-center">
           <div className="rounded-2xl overflow-hidden shadow-card bg-white flex items-center justify-center">
-            {/* Foto otimizada */}
+            {/* Foto otimizada e um pouco maior */}
             <Image
               src="/andretomazelafoto.png"
               alt="André Tomazela"
               width={900}
               height={1100}
               priority
-              className="block w-full h-auto object-contain max-h-[320px] md:max-h-[360px] lg:max-h-[380px]"
+              className="block w-full h-auto object-cover max-h-[340px] md:max-h-[380px] lg:max-h-[400px]"
             />
           </div>
           <div>
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Quem é André Tomazela</h2>
-            <p className="text-gray-700">
-             Sou jornalista formado pela Unesp-Bauru e pós-graudado em 
-              Mídias Digitais pelo Senac-SP. Há mais de 20 anos, conduzo projetos 
-              de comunicação interna, cultura organizacional, 
-              jornadas do colaborador, conteúdo estratégico e 
-              gestão de canais digitais para empresas, agências e organizações.            
-            </p>
-            <p className="mt-3 text-gray-700">
-              Como repórter do Valor Econômico, elaboro matérias para 
-              projetos especiais em sustentabilidade, meio ambiente, 
-              inovação, infraestrutura e logística, 
-              energia, saneamento básico, agronegócios e COP 30.
-            </p>
-            <Link
-              href="https://www.linkedin.com/in/tomazela"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center rounded-2xl px-4 py-2 text-sm font-medium bg-orange-600 text-white hover:bg-orange-700 transition"
-            >
-              Ver LinkedIn
-            </Link>
-            <a
-              href="#contato"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToId("#contato");
-              }}
-              className="inline-block mt-5 btn btn-outline"
-            >
-              Fale comigo
-            </a>
+
+            {/* Respira melhor entre parágrafos */}
+            <div className="text-gray-700 space-y-5">
+              <p>
+                Sou jornalista formado pela Unesp-Bauru, com especialização em Jornalismo
+                Institucional e pós-graduação em Mídias Digitais. Há mais de 20 anos, conduzo
+                projetos de comunicação interna, cultura organizacional, jornadas do colaborador,
+                conteúdo estratégico e gestão de canais digitais para empresas, agências e
+                organizações.
+              </p>
+
+              <p>
+                Como repórter do Valor Econômico, elaboro matérias para projetos especiais em
+                sustentabilidade, meio ambiente, inovação, infraestrutura e logística, energia,
+                saneamento básico, agronegócios e COP 30.
+              </p>
+            </div>
+
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link
+                href="https://www.linkedin.com/in/tomazela"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center rounded-2xl px-4 py-2 text-sm font-medium bg-orange-600 text-white hover:bg-orange-700 transition"
+              >
+                Ver LinkedIn
+              </Link>
+              <a
+                href="#contato"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId("#contato");
+                }}
+                className="inline-block btn btn-outline"
+              >
+                Fale comigo
+              </a>
+            </div>
           </div>
         </div>
       </section>
