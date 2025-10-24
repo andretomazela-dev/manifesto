@@ -291,20 +291,20 @@ export default function Home() {
       {/* SOBRE */}
       <section id="sobre" className="py-14 md:py-16 bg-white scroll-mt-28">
         <div className="container grid md:grid-cols-2 gap-10 items-center">
-          {/* FOTO – mobile 1:1 (fill + cover) e desktop com alturas máximas */}
+          {/* FOTO – mobile 1:1 com foco no topo; desktop com alturas e foco no topo */}
           <div className="rounded-2xl overflow-hidden shadow-card bg-white">
-            {/* Mobile (até md): quadrada 1:1 com cover */}
+            {/* Mobile (até md): quadrada 1:1 com cover e foco no topo */}
             <div className="relative aspect-square md:hidden">
               <Image
                 src="/andretomazelafoto.png"
                 alt="André Tomazela"
                 fill
                 priority
-                className="object-cover"
+                className="object-cover object-top"
                 sizes="100vw"
               />
             </div>
-            {/* Desktop (md+): mantém o visual anterior */}
+            {/* Desktop (md+): mantém visual, mas com foco no topo e leve ajuste de altura */}
             <div className="hidden md:flex md:items-center md:justify-center">
               <Image
                 src="/andretomazelafoto.png"
@@ -312,7 +312,7 @@ export default function Home() {
                 width={900}
                 height={1100}
                 priority
-                className="block w-full h-auto object-cover max-h-[340px] md:max-h-[380px] lg:max-h-[400px]"
+                className="block w-full h-auto object-cover object-top max-h-[300px] md:max-h-[340px] lg:max-h-[380px]"
                 sizes="(max-width: 1024px) 50vw, 600px"
               />
             </div>
