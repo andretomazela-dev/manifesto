@@ -8,9 +8,10 @@ export async function POST(req) {
       return Response.json({ ok: true });
     }
 
-    // Token do Turnstile
+    // Token do Turnstile (padrão: cf-turnstile-response)
     const token =
-      formData.get("turnstile") || formData.get("cf-turnstile-response");
+      formData.get("cf-turnstile-response") || formData.get("turnstile");
+
     if (!token) {
       return Response.json({ error: "Verificação ausente." }, { status: 400 });
     }
@@ -34,6 +35,11 @@ export async function POST(req) {
     if (!verifyRes.success) {
       return Response.json({ error: "Falha na verificação." }, { status: 400 });
     }
+
+    // Remover campos que não devem ir para o Formspree
+    formData.delete("cf-turnstile-response");
+    formData.delete("turnstile");
+    formData.delete("website");
 
     // Encaminha ao Formspree
     const fsRes = await fetch(
