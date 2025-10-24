@@ -330,7 +330,7 @@ export default function Home() {
       >
         <div className="container">
           <h2 className="text-2xl md:text-3xl font-bold">Vamos conversar?</h2>
-          <p className="mt-2 text-gray-700 max-w-prose">
+          <p className="mt-2 mb-6 text-gray-700 max-w-prose">
             Conte rápido seu objetivo. Eu respondo com um caminho claro e um
             pacote de soluções sob medida.
           </p>
