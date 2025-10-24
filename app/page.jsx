@@ -406,7 +406,8 @@ export default function Home() {
               <input type="text" name="website" tabIndex="-1" autoComplete="off" className="hidden" />
 
               {/* Token Turnstile (será preenchido via callback) */}
-              <input type="hidden" name="turnstile" value={cfToken} />
+              <input type="hidden" name="cf-turnstile-response" value={cfToken} />
+
 
               {/* Widget visível do Turnstile */}
               <div className="md:col-span-3">
