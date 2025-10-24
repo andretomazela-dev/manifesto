@@ -300,16 +300,32 @@ export default function Home() {
           <div>
             <h2 className="text-2xl md:text-3xl font-bold">Quem é André Tomazela</h2>
             <p className="mt-4 text-gray-700">
-              Jornalista e estrategista de comunicação com experiência em
-              empresas, agências e projetos editoriais. Entrega clara, sem
-              enrolação, com foco em resultado.
+              Sou jornalista formado pela Unesp-Bauru, com especialização em 
+              Jornalismo Institucional pela PUC-SP e pós-graduação em Gestão da 
+              Comunicação em Mídias Digitais pelo Senac-SP.
+              
+              Há mais de 20 anos atuo em empresas, agências e organizações, 
+              com foco em comunicação interna, endomarketing, cultura organizacional
+              e conteúdo estratégico. Desenvolvo campanhas, 
+              narrativas institucionais, jornadas do colaborador e canais digitais.              
             </p>
             <p className="mt-3 text-gray-700">
-              Pós-graduação em Gestão da Comunicação em Mídias Digitais
-              (Senac-SP). Reportagens e especiais para o Valor Econômico.
-              Atuação com organizações de impacto e negócios.
-            </p>
-            <a
+              Como repórter do Valor Econômico, produzo matérias para os 
+              projetos especiais nas editorias de sustentabilidade, 
+              meio ambiente, infraestrutura e logística, inovação, agronegócios e COP 30.
+              
+              Acredito em comunicação assertiva, acessível e orientada a 
+              resultado, que respeita pessoas, fortalece cultura e constrói reputação.
+              </p>
+            <Link
+            href="https://www.linkedin.com/in/tomazela"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center rounded-2xl px-4 py-2 text-sm font-medium bg-orange-600 text-white hover:bg-orange-700 transition"
+>
+  Ver LinkedIn
+</Link>
+           <a
               href="#contato"
               onClick={(e) => {
                 e.preventDefault();
@@ -317,7 +333,7 @@ export default function Home() {
               }}
               className="inline-block mt-5 btn btn-outline"
             >
-              Falar com o André
+              Fale comigo
             </a>
           </div>
         </div>
