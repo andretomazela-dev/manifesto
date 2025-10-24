@@ -80,7 +80,7 @@ export default function Manifesto() {
           </div>
 
           {/* Imagem vertical (mãos) */}
-          <div className="md:col-span-5 order-1 md:order-2 mb-10 md:mb-0">
+          <div className="md:col-span-5 order-1 md:order-2 mb-10 md:mb-0 mt-10 md:mt-0">
             <div className="rounded-2xl overflow-hidden shadow-card relative h-[320px] md:h-[520px] lg:h-[560px]">
               <Image
                 src="/manifesto-hands.webp"
