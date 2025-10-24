@@ -292,15 +292,13 @@ export default function Home() {
       <section id="sobre" className="py-14 md:py-16 bg-white scroll-mt-28">
         <div className="container grid md:grid-cols-2 gap-10 items-center">
           <div className="rounded-2xl overflow-hidden shadow-card bg-white flex items-center justify-center">
-            {/* Foto otimizada com next/image */}
-            <Image
-              src="/andretomazelafoto.png"
+            <img
+              src="/Foto André.png"
+              src="/andretomazelafoto.png" // ✅ arquivo renomeado (sem espaço/acentos)
               alt="André Tomazela"
-              width={900}     // ajuste se quiser; proporção é mantida
-              height={1100}   // apenas para cálculo inicial
-              priority
-              className="object-contain w-full h-auto max-h-[380px] md:max-h-[420px] lg:max-h-[460px]"
-            />
+              className="block w-full h-auto object-contain max-h-[320px] md:max-h-[360px] lg:max-h-[380px]"
+              loading="lazy"
+            />            
           </div>
           <div>
             <h2 className="text-2xl md:text-3xl font-bold">Quem é André Tomazela</h2>
