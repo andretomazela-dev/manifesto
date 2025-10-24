@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link"; // ✅ necessário para <Link>
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -116,7 +117,7 @@ export default function Home() {
           <h2 className="text-2xl md:text-3xl font-bold">
             O que podemos fazer por você
           </h2>
-          <p className="mt-2 text-gray-600 max-w-prose">
+        <p className="mt-2 text-gray-600 max-w-prose">
             Serviços pensados para empresas e organizações de impacto. Objetivo:
             ampliar visibilidade, fortalecer reputação e criar relações
             consistentes.
@@ -176,7 +177,7 @@ export default function Home() {
             <div className="card">
               <div className="mb-3 text-orange-600">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
+                  <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1-4-4h10a4 4 0 0 1 4 4z"></path>
                 </svg>
               </div>
               <h3 className="font-semibold">Redes sociais</h3>
@@ -291,7 +292,7 @@ export default function Home() {
         <div className="container grid md:grid-cols-2 gap-10 items-center">
           <div className="rounded-2xl overflow-hidden shadow-card bg-white flex items-center justify-center">
             <img
-              src="/Foto André.png"
+              src="/andretomazelafoto.png" // ✅ arquivo renomeado (sem espaço/acentos)
               alt="André Tomazela"
               className="block w-full h-auto object-contain max-h-[320px] md:max-h-[360px] lg:max-h-[380px]"
               loading="lazy"
@@ -316,16 +317,16 @@ export default function Home() {
               
               Acredito em comunicação assertiva, acessível e orientada a 
               resultado, que respeita pessoas, fortalece cultura e constrói reputação.
-              </p>
+            </p>
             <Link
-            href="https://www.linkedin.com/in/tomazela"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center rounded-2xl px-4 py-2 text-sm font-medium bg-orange-600 text-white hover:bg-orange-700 transition"
->
-  Ver LinkedIn
-</Link>
-           <a
+              href="https://www.linkedin.com/in/tomazela"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-2xl px-4 py-2 text-sm font-medium bg-orange-600 text-white hover:bg-orange-700 transition"
+            >
+              Ver LinkedIn
+            </Link>
+            <a
               href="#contato"
               onClick={(e) => {
                 e.preventDefault();
@@ -382,7 +383,7 @@ export default function Home() {
               <input
                 type="text"
                 name="website"
-                tabIndex="-1"
+                tabIndex={-1}
                 autoComplete="off"
                 className="hidden"
               />
