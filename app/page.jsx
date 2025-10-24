@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import Link from "next/link"; // necessário para <Link>
-import Image from "next/image"; // necessário para next/image
+import Link from "next/link";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -34,7 +34,7 @@ export default function Home() {
     const fd = new FormData(form);
 
     try {
-      // Honeypot: se preenchido, tratamos como bot e não enviamos ao Formspree
+      // Honeypot
       if ((fd.get("website") || "").toString().trim()) {
         setSent(true);
         form.reset();
@@ -124,7 +124,7 @@ export default function Home() {
             consistentes.
           </p>
 
-        <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {/* 1 */}
             <div className="card">
               <div className="mb-3 text-orange-600">
@@ -291,21 +291,36 @@ export default function Home() {
       {/* SOBRE */}
       <section id="sobre" className="py-14 md:py-16 bg-white scroll-mt-28">
         <div className="container grid md:grid-cols-2 gap-10 items-center">
-          <div className="rounded-2xl overflow-hidden shadow-card bg-white flex items-center justify-center">
-            {/* Foto otimizada e um pouco maior */}
-            <Image
-              src="/andretomazelafoto.png"
-              alt="André Tomazela"
-              width={900}
-              height={1100}
-              priority
-              className="block w-full h-auto object-cover max-h-[340px] md:max-h-[380px] lg:max-h-[400px]"
-            />
+          {/* FOTO – mobile 1:1 (fill + cover) e desktop com alturas máximas */}
+          <div className="rounded-2xl overflow-hidden shadow-card bg-white">
+            {/* Mobile (até md): quadrada 1:1 com cover */}
+            <div className="relative aspect-square md:hidden">
+              <Image
+                src="/andretomazelafoto.png"
+                alt="André Tomazela"
+                fill
+                priority
+                className="object-cover"
+                sizes="100vw"
+              />
+            </div>
+            {/* Desktop (md+): mantém o visual anterior */}
+            <div className="hidden md:flex md:items-center md:justify-center">
+              <Image
+                src="/andretomazelafoto.png"
+                alt="André Tomazela"
+                width={900}
+                height={1100}
+                priority
+                className="block w-full h-auto object-cover max-h-[340px] md:max-h-[380px] lg:max-h-[400px]"
+                sizes="(max-width: 1024px) 50vw, 600px"
+              />
+            </div>
           </div>
+
           <div>
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Quem é André Tomazela</h2>
 
-            {/* Respira melhor entre parágrafos */}
             <div className="text-gray-700 space-y-5">
               <p>
                 Sou jornalista formado pela Unesp-Bauru, com especialização em Jornalismo
