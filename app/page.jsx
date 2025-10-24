@@ -1,20 +1,17 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export default function Home() {
-  // Estados do formulário
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [err, setErr] = useState("");
+  const [cfToken, setCfToken] = useState(""); // token do Turnstile
+  const cfRef = useRef(null); // guarda o id do widget renderizado
 
-  // Turnstile
-  const [cfToken, setCfToken] = useState("");
-  const turnstileRef = useRef(null);      // container onde o widget será renderizado
-  const widgetIdRef = useRef(null);       // id do widget renderizado
+  const TURNSTILE_SITE = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 
-  // Scroll suave com compensação do header
   const scrollToId = (hash) => {
     const id = hash.startsWith("#") ? hash : `#${hash}`;
     const el = document.querySelector(id);
@@ -25,77 +22,78 @@ export default function Home() {
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
-  // Carrega script do Turnstile e renderiza o widget de forma programática
+  // Carrega o script do Turnstile e renderiza o widget visível “flexible”
   useEffect(() => {
-    // callback global chamado pelo Turnstile quando o visitante é verificado
-    if (!window.onTurnstileVerify) {
+    if (!TURNSTILE_SITE) return; // evita tentar renderizar sem a site key
+
+    // callback global que o Turnstile chama quando emite um token
+    if (typeof window !== "undefined") {
       window.onTurnstileVerify = (token) => {
         setCfToken(token);
-        // console.debug("Turnstile token:", token);
+        setErr(""); // limpamos erro se houver
       };
     }
 
-    // Evita incluir script duplicado
-    let script = document.querySelector('script[data-turnstile="1"]');
-    if (!script) {
-      script = document.createElement("script");
-      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
-      script.async = true;
-      script.defer = true;
-      script.setAttribute("data-turnstile", "1");
-      document.body.appendChild(script);
+    const already = document.querySelector('script[data-turnstile="1"]');
+    if (already) {
+      // se o script já existe, tenta renderizar (ex.: navegação cliente)
+      renderTurnstile();
+      return;
     }
 
-    // quando o script estiver pronto, renderiza o widget
-    const tryRender = () => {
-      if (window.turnstile && turnstileRef.current && !widgetIdRef.current) {
-        widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
-          sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
-          callback: "onTurnstileVerify",
-          // Aparência “não interativa” para forçar exibição do badge/iframe
-          appearance: "interaction-only", // mostra o verificador quando preciso
-          action: "contact",
-          retry: "auto",
-          theme: "light",
-        });
-      }
-    };
+    const s = document.createElement("script");
+    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+    s.async = true;
+    s.defer = true;
+    s.setAttribute("data-turnstile", "1");
+    s.onload = () => renderTurnstile();
+    document.body.appendChild(s);
 
-    // tenta renderizar imediatamente (caso o script já esteja cacheado)
-    tryRender();
+    function renderTurnstile() {
+      if (!window.turnstile) return;
+      // evita render duplicado
+      if (cfRef.current) return;
 
-    // e também tenta quando o script terminar de carregar
-    script.addEventListener("load", tryRender);
+      // renderiza no container com opções estáveis
+      cfRef.current = window.turnstile.render("#cf-container", {
+        sitekey: TURNSTILE_SITE,
+        theme: "light",
+        size: "flexible",
+        callback: "onTurnstileVerify", // usa o callback global acima
+        "retry-interval": 8000,
+      });
+    }
+  }, [TURNSTILE_SITE]);
 
-    return () => {
-      script.removeEventListener("load", tryRender);
-      // limpa widget ao desmontar (boa prática)
-      if (window.turnstile && widgetIdRef.current) {
-        try {
-          window.turnstile.remove(widgetIdRef.current);
-        } catch {}
-        widgetIdRef.current = null;
-      }
-    };
-  }, []);
-
-  // Se a página abriu com hash, faz scroll suave
   useEffect(() => {
     if (window.location.hash) {
       setTimeout(() => scrollToId(window.location.hash), 0);
     }
   }, []);
 
-  // Envio (vai para /api/contact, que valida Turnstile e encaminha ao Formspree)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSending(true);
     setErr("");
 
+    // Anti-bot simples (honeypot)
+    const honeypot = e.currentTarget.website?.value || "";
+    if (honeypot.trim() !== "") {
+      setErr("Não foi possível enviar.");
+      return;
+    }
+
+    if (!cfToken) {
+      setErr("Confirme que você não é um robô (clique no verificador acima).");
+      document.getElementById("cf-container")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    setSending(true);
     const form = e.currentTarget;
     const fd = new FormData(form);
 
     try {
+      // envia para o endpoint que valida o Turnstile e repassa ao Formspree
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { Accept: "application/json" },
@@ -106,23 +104,16 @@ export default function Home() {
         setSent(true);
         form.reset();
         setCfToken("");
-        // Recarrega o widget para um novo token
-        if (window.turnstile && widgetIdRef.current) {
-          window.turnstile.reset(widgetIdRef.current);
+        // reseta o widget para um novo envio
+        if (window.turnstile && cfRef.current) {
+          window.turnstile.reset(cfRef.current);
         }
       } else {
         const j = await res.json().catch(() => ({}));
         setErr(j.error || "Não foi possível enviar.");
-        // Em erro, também reseta o widget
-        if (window.turnstile && widgetIdRef.current) {
-          window.turnstile.reset(widgetIdRef.current);
-        }
       }
     } catch {
       setErr("Falha de rede.");
-      if (window.turnstile && widgetIdRef.current) {
-        window.turnstile.reset(widgetIdRef.current);
-      }
     } finally {
       setSending(false);
     }
@@ -318,7 +309,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 9 — CTA destacado */}
+            {/* 9 — CTA invertido, destacado */}
             <div
               className="rounded-2xl p-6 bg-[#FF4D00] text-white shadow-lg hover:opacity-90 transition cursor-pointer ring-1 ring-black/5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FF4D00]"
               role="button"
@@ -414,24 +405,19 @@ export default function Home() {
               {/* Honeypot invisível */}
               <input type="text" name="website" tabIndex="-1" autoComplete="off" className="hidden" />
 
-              {/* Token Turnstile */}
+              {/* Token Turnstile (será preenchido via callback) */}
               <input type="hidden" name="turnstile" value={cfToken} />
 
-              {/* Turnstile (programático) */}
+              {/* Widget visível do Turnstile */}
               <div className="md:col-span-3">
-                <div
-                  ref={turnstileRef}
-                  // garante que o iframe tenha área visível
-                  style={{ minHeight: 70 }}
-                  className="mt-1"
-                />
+                <div id="cf-container" className="mt-1" />
               </div>
 
               <div className="md:col-span-3 flex justify-end">
                 <button
                   type="submit"
-                  disabled={!cfToken || sending}
-                  className="btn btn-primary rounded-2xl px-6 disabled:opacity-60"
+                  className="btn btn-primary rounded-2xl px-6"
+                  disabled={sending}
                 >
                   {sending ? "Enviando..." : "Enviar"}
                 </button>
