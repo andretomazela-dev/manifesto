@@ -292,17 +292,19 @@ export default function Home() {
       <section id="sobre" className="py-14 md:py-16 bg-white scroll-mt-28">
         <div className="container grid md:grid-cols-2 gap-10 items-center">
           <div className="rounded-2xl overflow-hidden shadow-card bg-white flex items-center justify-center">
-            <img
-              src="/Foto André.png"
-              src="/andretomazelafoto.png" // ✅ arquivo renomeado (sem espaço/acentos)
+            {/* Foto otimizada */}
+            <Image
+              src="/andretomazelafoto.png"
               alt="André Tomazela"
+              width={900}
+              height={1100}
+              priority
               className="block w-full h-auto object-contain max-h-[320px] md:max-h-[360px] lg:max-h-[380px]"
-              loading="lazy"
-            />            
+            />
           </div>
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold">Quem é André Tomazela</h2>
-            <p className="mt-4 text-gray-700">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Quem é André Tomazela</h2>
+            <p className="text-gray-700">
               Jornalista pela Unesp-Bauru, com especialização na PUC-SP e 
               pós em Mídias Digitais pelo Senac-SP. Há mais de 20 anos, atuo 
               com comunicação interna, cultura organizacional, jornadas 
