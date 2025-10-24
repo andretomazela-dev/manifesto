@@ -100,7 +100,7 @@ export default function Manifesto() {
         {/* BLOCO 2 — Imagem à ESQUERDA / Texto à DIREITA */}
         <section className="container grid md:grid-cols-12 gap-10 items-center">
           {/* Imagem (planeta) */}
-          <div className="md:col-span-6 mb-10 md:mb-0">
+          <div className="md:col-span-6 mb-10 md:mb-0 mt-10 md:mt-0">
             <div className="rounded-2xl overflow-hidden shadow-card relative h-[340px] md:h-[420px] lg:h-[440px]">
               <Image
                 src="/manifesto-planet.webp"
